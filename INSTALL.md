@@ -80,5 +80,69 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 ```
 
+## clone all the repos
+Done for you
 
-COPY .bashrc_custom /home/ubuntu/.bashrc
+## For code commit you need to explicitly add your key and known host 
+Check the region is right
+```code ~/.ssh/config```
+
+```
+Host git-codecommit.eu-west-2.amazonaws.com
+    User APKAQ4XOUSMHRUSCUQSZ
+    IdentityFile ~/.ssh/id_rsa
+```
+
+
+Host git-codecommit.us-east-1.amazonaws.com
+   User Your-SSH-Key-ID, such as APKAEIBAERJR2EXAMPLE
+   IdentityFile Your-Private-Key-File, such as ~/.ssh/codecommit_rsa or ~/.ssh/id_rsa
+
+## Set things up
+```
+cd /home/ubuntu/source/project-williamsville
+```
+
+## get branch highlighting on the command line
+cp .bashrc_custom /home/ubuntu/.bashrc
+source ~/.bashrc
+
+## make sure you are running in a venv
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+
+It should look like this!
+
+```
+(venv) ubuntu@ip-172-31-35-172:~/source/project-williamsville(master)$
+```
+
+## Check your versions
+```
+lsb_release -a
+```
+
+```
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 22.04.2 LTS
+Release:        22.04
+Codename:       jammy
+```
+
+```
+python --version
+```
+
+```
+Python 3.10.12
+```
+
+## Windows connection
+
+Host kc
+  HostName ec2-18-169-177-149.eu-west-2.compute.amazonaws.com
+  User ubuntu
+  IdentityFile "C:\Users\<username>\OneDrive - ThinJetty\SSL\kc\kc.pem"
