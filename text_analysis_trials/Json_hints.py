@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 # ******************************************************************************************************************120
 #
-# hello_world.py -t <text>
+# json_hints.py -f file TODO: pass your file on the command line
 #
 # *********************************************************************************************************************
 
 # standard imports
+import json
 import os
 
 # 3rd party imports
@@ -17,13 +18,15 @@ import click
 
 
 @click.command()
-@click.option('-t', '--text', type=str, required=False, default='Hello World', help='Text to print')
-def main(text: str) -> None:
+@click.option('-f', '--filename', type=str, required=True, help='Give me a file path!')
+def main(filename: str) -> None:
     """Main Function"""
-    print_text(text)
-    print("Sucker!")
-    directory_list=os.listdir(".")
-    print(directory_list)
+    # check it out
+    print_text(filename)
+    
+    # TODO: try json.load, json.dump
+    
+
 
 def print_text(text: str):
     """Please include docstrings"""

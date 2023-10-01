@@ -17,3 +17,8 @@ pandas
 nltk
 pylint
 click
+matplotlib
+networkx
+git-pylint-commit-hook
+string
+WordCloud
