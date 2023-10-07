@@ -16,3 +16,9 @@ class Numpty :
     def do_something_more_impressive(self, number_a: int) -> str:
         """This does something more impressive with your number"""
         return str(number_a*math.asin(0.4))
+
+    def this_is_keith(self, person:str) -> str:
+        """This turns the variale intokeith"""
+        person = "keith"
+        return person
+

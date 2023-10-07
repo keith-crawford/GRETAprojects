@@ -5,7 +5,7 @@
 #   read up on python packaging
 #   within it create your own file containing your own objects
 #   review what this command does: python -m pip install -e .
-# 1. function outside of a class
+# 1. function outside of a classpyt
 # 1a. import this module and call this function from a script (hint: use the command)
 # 1b. make changes on and see around the command when you need to rerun it - or not
 # 2. add a class to your module file
@@ -16,7 +16,13 @@
 # 5. move a meaningful part of existing work into a file and objects within source
 # 5a. have script be core controlling logic only containing functions.
 
-
+from projectwilliamsville import example
 from projectwilliamsville import helpers
+from example_package_keithdev2 import example2
 a_numpty = helpers.Numpty()
 print(a_numpty.do_something_more_impressive(3))
+
+print(a_numpty.this_is_keith("Fred"))
+
+print(example.add_one(4))
+print(example2.square(4))
