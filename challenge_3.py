@@ -26,3 +26,10 @@ print(a_numpty.this_is_keith("Fred"))
 
 print(example.add_one(4))
 print(example2.square(4))
+
+grumpy = example2.KeithMod(10,"computer games")
+sad = example2.KeithMod(5,"chocolate")
+
+grumpy.example2.KeithMod.improve_mood()
+sad.example2.KeithMod.reducemood()
+sad.example2.KeithMod.improvemood("computer games")
