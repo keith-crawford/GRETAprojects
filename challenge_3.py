@@ -19,6 +19,7 @@
 from projectwilliamsville import example
 from projectwilliamsville import helpers
 from example_package_keithdev2 import example2
+
 a_numpty = helpers.Numpty()
 print(a_numpty.do_something_more_impressive(3))
 
@@ -27,9 +28,13 @@ print(a_numpty.this_is_keith("Fred"))
 print(example.add_one(4))
 print(example2.square(4))
 
-grumpy = example2.KeithMod(10,"computer games")
-sad = example2.KeithMod(5,"chocolate")
+grumpy = example2.KeithMod("Grumpy", 6, "computer games")
+sad = example2.KeithMod("Sad", 5, "chocolate")
 
-grumpy.example2.KeithMod.improve_mood()
-sad.example2.KeithMod.reducemood()
-sad.example2.KeithMod.improvemood("computer games")
+print(grumpy.name, grumpy.level, grumpy.solution)
+print(sad.name, sad.level, sad.solution)
+
+
+grumpy.improve_mood("cake")
+sad.reduce_mood()
+sad.improve_mood("chocolate")
