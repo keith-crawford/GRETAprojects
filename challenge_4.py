@@ -66,25 +66,31 @@ class MyAPIValidationException(Exception):
 TIMEOUT = 5000
 
 headers ={}
-baseurl = "https://api.parliament.uk/historic-hansard/sittings/"
+hansardbaseurl = "https://api.parliament.uk/historic-hansard/commons/"
 year = (int)
 month = (str)
 date = (int)
+subject = (str)
+
 @click.command()
-@click.option('-y', '--year', type=int, required=True, default='2002', help='Four figure integer, eg. 2002')
-@click.option('-m', '--month', type=str, required=True, default="apr", help='jan/feb/mar/apr/may/jun/jul/aug/sep/oct/nov/dec')
-@click.option('-d', '--date', type=int, required=True, default=16, help='1-31')
+@click.option('-y', '--year', type=int, required=True, prompt=True, default='2002', help='Four figure integer, eg. 2002')
+@click.option('-m', '--month', type=str, required=True, prompt=True, default="apr", help='jan/feb/mar/apr/may/jun/jul/aug/sep/oct/nov/dec')
+@click.option('-d', '--date', type=int, required=True, prompt=True, default=16, help='1-31')
+@click.option('-s', '--subject', type=str, required=True, prompt=True, default="zimbabwe", help='Subject Discussed')
 
-def main(year: int, month: str, date: int) -> None:
-    print(get_hansard_report(headers, baseurl, year, month, date))
+def main(year: int, month: str, date: int, subject: str) -> None:
+    commons_report=get_hansard_commons_report(headers, hansardbaseurl, year, month, date, subject)
+    print(commons_report)
+    print(type(commons_report))
 
-def get_hansard_report(headers: dict, baseurl:str, year: int, month: str, date: int) -> dict:
+def get_hansard_commons_report(headers: dict, hansardbaseurl:str, year: int, month: str, date: int, subject: str) -> dict:
     """Does a get of this end point
     https://api.parliament.uk/historic-hansard/sittings/"""
 
-    #Example https://api.parliament.uk/historic-hansard/sittings/2002/apr/16
+    #Example https://api.parliament.uk/historic-hansard/commons/2002/apr/16/zimbabwe
 
-    url = f'{baseurl}/{year}/{month}/{date}'
+    url = f'{hansardbaseurl}/{year}/{month}/{date}/{subject}'
+
 
     # define a payload to send if it's a post
 
