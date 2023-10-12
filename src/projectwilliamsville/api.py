@@ -13,7 +13,7 @@ from flasgger import Swagger
 import flask
 
 # custom imports
-from projectwilliamsville import helpers
+from projectwilliamsville import helpers, keith_mood
 
 app = flask.Flask(__name__)
 template = {
@@ -53,6 +53,22 @@ def gibber():
     return {
       "objectname": a_numpty.get_name(),
       "something_more_impressive": a_numpty.do_something_more_impressive(3)
+    }
+
+@app.route("/keith_mood", methods=["GET"])
+def get_keith_mood():
+    """Start gibbering
+    ---
+    responses:
+        200:
+            description: A gibbering function.
+    """
+    keith = keith_mood.KeithMood(name="Wednesday",level=2)
+    mood = keith.improve_mood("chocolate") # +1 = 3
+    mood = keith.improve_mood("vape") # doesn't work = 3
+    mood = keith.reduce_mood() # -1 = 2 back where started
+    return {
+      "mood": mood
     }
 
 if __name__ == '__main__':
