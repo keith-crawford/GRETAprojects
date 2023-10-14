@@ -65,48 +65,12 @@ class MyAPIValidationException(Exception):
 # declare a global constant for timeout.
 TIMEOUT = 5000
 
-headers ={}
-hansardbaseurl = "https://api.parliament.uk/historic-hansard/commons/"
-year = (int)
-month = (str)
-date = (int)
-subject = (str)
+
 
 @click.command()
-@click.option('-y', '--year', type=int, required=True, prompt=True, default='2002', help='Four figure integer, eg. 2002')
-@click.option('-m', '--month', type=str, required=True, prompt=True, default="apr", help='jan/feb/mar/apr/may/jun/jul/aug/sep/oct/nov/dec')
-@click.option('-d', '--date', type=int, required=True, prompt=True, default=16, help='1-31')
-@click.option('-s', '--subject', type=str, required=True, prompt=True, default="zimbabwe", help='Subject Discussed')
-
-def main(year: int, month: str, date: int, subject: str) -> None:
-    commons_report=get_hansard_commons_report(headers, hansardbaseurl, year, month, date, subject)
-    print(commons_report)
-    print(type(commons_report))
-
-def get_hansard_commons_report(headers: dict, hansardbaseurl:str, year: int, month: str, date: int, subject: str) -> dict:
-    """Does a get of this end point
-    https://api.parliament.uk/historic-hansard/sittings/"""
-
-    #Example https://api.parliament.uk/historic-hansard/commons/2002/apr/16/zimbabwe
-
-    url = f'{hansardbaseurl}/{year}/{month}/{date}/{subject}'
 
 
-    # define a payload to send if it's a post
-
-    payload = {}
-
-    response = requests.request(
-        "GET", url, headers=headers, data=json.dumps(payload), timeout=TIMEOUT)
-    return _validate_response(response, url)
-
-def _validate_response(response: requests.Response, url: str, field: str = None, payload: dict = None):
-    """Validate the response from the API and provide consistent error handling"""
-    if payload is None:
-        payload = {}
-    if isinstance(response, str) or response.status_code != 200:
-        raise MyAPIValidationException(
-            url=url, payload=payload, response=response)
+# https://api.parliament.uk/historic-hansard/sittings/2002/apr/16.js
 
 if __name__ == '__main__':
     main()  # pylint: disable=no-value-for-parameter
