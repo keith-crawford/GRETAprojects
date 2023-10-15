@@ -6,11 +6,11 @@ import requests
 apikey = open('.creds',mode='r',encoding='utf8').read()
 print(apikey)
 
-# do it for whoever - as it's a constant that doesn't get changed here it obeys CAPITALS
-STOCK_TICKER = 'IBM'
-
-# some FMP apikey you've sorted out - see the parameters
-url = f'https://financialmodelingprep.com/api/v3/profile/{STOCK_TICKER}?apikey={apikey}'
+# Hansard example
+YYYY=2002
+MMM='apr'
+D=16
+url = f'https://api.parliament.uk/historic-hansard/sittings/{YYYY}/{MMM}/{D}.js'
 
 # Make a response object
 response = requests.request(method="GET",url=url,timeout=10)
