@@ -18,3 +18,4 @@ output.txt
 !.git/hooks/pre-commit
 static/img
 src/projectwilliamsville.egg-info
+.creds
