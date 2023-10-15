@@ -42,13 +42,14 @@
 # *********************************************************************************************************************
 
 # standard imports
+# import pandas
 
 # 3rd party imports
 from flasgger import Swagger
 import flask
 
 # custom imports
-from projectwilliamsville import helpers, keith_mood
+from projectwilliamsville import helpers, keith_mood, providor, hansard
 
 app = flask.Flask(__name__)
 template = {
@@ -71,9 +72,28 @@ def home():
         200:
             description: A welcome message
     """
+
     return {
         "text": "Welcome to Project-Williamsville",
-        "apidocs": "http://127.0.0.1:80/apidocs"
+        "apidocs": "http://127.0.0.1:80/apidocs",
+        "blah": hansard.return_blah()
+    }
+
+@app.route("/", methods=["PUT"])
+def alien_invasion():
+    """Maybe a PUT will work. No it will not"""
+
+    return {
+        "ALL YOUR BASES ARE BELONG TO US!"
+    }
+
+@app.route("/hansard", methods=["GET"])
+def some_other_name_than_hansard():
+    """Prints the general hansard json"""
+    gibralter=providor.grabawebsite()
+
+    return {
+        "Stupid hansard": gibralter
     }
 
 @app.route("/gibber", methods=["GET"])
@@ -87,6 +107,7 @@ def gibber():
     a_numpty = helpers.Numpty()
     return {
       "objectname": a_numpty.get_name(),
+      "Providor": providor.NumptyProvidor.gibbergibber(),
       "something_more_impressive": a_numpty.do_something_more_impressive(3)
     }
 
