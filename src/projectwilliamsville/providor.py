@@ -65,3 +65,18 @@ def grabawebsite():
 def gibber_gibber_outside_class() -> str:
     """function outside the class, no self"""
     return "gibber gibber"
+
+def earning_calls():
+    # get apikey from a protected file
+    apikey = open('.creds',mode='r',encoding='utf8').read()
+
+    # do it for whoever - as it's a constant that doesn't get changed here it obeys CAPITALS
+    STOCK_TICKER = 'IBM'
+
+    # some FMP apikey you've sorted out - see the parameters
+    url = f'https://financialmodelingprep.com/api/v3/profile/{STOCK_TICKER}?apikey={apikey}'
+
+    # Make a response object
+    response = requests.request(method="GET",url=url,timeout=10)
+
+    return response.text

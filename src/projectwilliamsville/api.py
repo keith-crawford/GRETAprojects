@@ -42,11 +42,12 @@
 # *********************************************************************************************************************
 
 # standard imports
-# import pandas
+import json
 
 # 3rd party imports
 from flasgger import Swagger
 import flask
+import pandas
 
 # custom imports
 from projectwilliamsville import helpers, keith_mood, providor, hansard
@@ -79,13 +80,36 @@ def home():
         "blah": hansard.return_blah()
     }
 
-@app.route("/", methods=["PUT"])
-def alien_invasion():
-    """Maybe a PUT will work. No it will not"""
 
-    return {
-        "ALL YOUR BASES ARE BELONG TO US!"
+@app.route("/earningscall", method=["GET"])
+def earncalls() -> dict:
+    """ Uses earningcalls function to call them from providor function and post to website
+    Except what it actually does is crashes the code with a:
+    File "/home/ubuntu/source/project-williamsville/src/projectwilliamsville/api.py", line 85, in <module>
+    def earncalls() -> dict:
+    TypeError: Rule.__init__() got an unexpected keyword argument 'method'"""
+
+    ereport = providor.earning_calls()
+    return ereport
+
+@app.route("/jason", methods=["GET"])
+def trypost() -> dict:
+    """ Those might actually be the droids we're looking for
+    Hope to develop this to posting a jason the stormtrooper as a json to the website
+    Works with GET but POST returns : Method Not Allowed
+    The method is not allowed for the requested URL."""
+
+    trooper = {
+    "Id": "TK-5331",
+    "Type": "Stormtrooper",
+    "Quantity": 1,
+    "Value": 2
     }
+
+    jason = trooper
+    #.to_json() - tried to convert trooper to json with this,don't know why it doesn't recognise the method. Pandas and json installed.
+
+    return jason
 
 @app.route("/hansard", methods=["GET"])
 def some_other_name_than_hansard():
