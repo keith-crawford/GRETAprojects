@@ -48,29 +48,9 @@ import requests
 # custom imports
 
 
-# declare an exception type so pylint doesn't tell you aren't catching specific enough exceptions.
-class MyAPIValidationException(Exception):
-    """When response validation fails"""
-
-    def __init__(self, url: str, response, payload: dict = None):
-        if payload is None:
-            payload = {}
-        self.url = url
-        self.response = response
-        self.payload = payload
-        self.message = f'Did not receive 200 from url: {url} {self.response.status_code} {self.response.text}'
-        super().__init__(self.message)
+def main():
 
 
-# declare a global constant for timeout.
-TIMEOUT = 5000
-
-
-
-@click.command()
-
-
-# https://api.parliament.uk/historic-hansard/sittings/2002/apr/16.js
 
 if __name__ == '__main__':
     main()  # pylint: disable=no-value-for-parameter

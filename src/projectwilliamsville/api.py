@@ -1,8 +1,13 @@
 #!/usr/bin/env python # pylint: disable=missing-module-docstring
 # -*- coding: utf-8 -*-
 # ******************************************************************************************************************120
-#
 # app.py
+#
+# NOTES: Functions not working as intended are as follows:
+# def earning calls - fails TypeError: Rule.__init__() got an unexpected keyword argument 'method'
+# def trypost - works fine as a get, put it was suppost to be a POST
+# def collatedcalls - meant to send json to api docs but doesn't work
+#
 #
 # Challenge 4: Make some flask APIs do what you want
 # These is a production grade Apache 2.0 webserver running on port 80
@@ -33,7 +38,7 @@
 # challenges
 # 1. Add a new simple API for a GET end point which returns some json
 # - make sure it appears in API docs and you can test it
-# 2. Add a new POST end point which accepts in some json processes it and returns it
+# 2. Accept parameters for things you want to and return json incorporating them.
 # 3. Add a GET end point which returns csv text data
 # 4. add a GET end point which generates an image and returns an image.
 # Extra Credit
@@ -42,15 +47,13 @@
 # *********************************************************************************************************************
 
 # standard imports
-import json
 
 # 3rd party imports
 from flasgger import Swagger
 import flask
-import pandas
 
 # custom imports
-from projectwilliamsville import helpers, keith_mood, providor, hansard
+from projectwilliamsville import helpers, keith_mood, hansard
 
 app = flask.Flask(__name__)
 template = {
@@ -66,7 +69,7 @@ swagger = Swagger(app, template=template)
 app.config["DEBUG"] = True
 
 @app.route("/", methods=["GET"])
-def home():
+def home() -> dict:
     """Welcome message
     ---
     responses:
@@ -81,44 +84,35 @@ def home():
     }
 
 
-@app.route("/earningscall", method=["GET"])
-def earncalls() -> dict:
-    """ Uses earningcalls function to call them from providor function and post to website
-    Except what it actually does is crashes the code with a:
-    File "/home/ubuntu/source/project-williamsville/src/projectwilliamsville/api.py", line 85, in <module>
-    def earncalls() -> dict:
-    TypeError: Rule.__init__() got an unexpected keyword argument 'method'"""
+# @app.route("/earningscall", method=["GET"])
+# def earncalls() -> dict:
+#     """ Uses earningcalls function to call them from providor function and post to website
+#     Except what it actually does is crashes the code with a:
+#     File "/home/ubuntu/source/project-williamsville/src/projectwilliamsville/api.py", line 85, in <module>
+#     def earncalls() -> dict:
+#     TypeError: Rule.__init__() got an unexpected keyword argument 'method'"""
 
-    ereport = providor.earning_calls()
-    return ereport
+#     ereport = providor.earning_calls()
+#     return ereport
 
 @app.route("/jason", methods=["GET"])
-def trypost() -> dict:
-    """ Those might actually be the droids we're looking for
-    Hope to develop this to posting a jason the stormtrooper as a json to the website
-    Works with GET but POST returns : Method Not Allowed
-    The method is not allowed for the requested URL."""
+def jason() -> dict:
+    """A stormtrooper called Jason.
+    ---
+    responses:
+        200:
+            description: A stormtrooper called Jason.
+    """
 
     trooper = {
     "Id": "TK-5331",
     "Type": "Stormtrooper",
     "Quantity": 1,
-    "Value": 2
+    "Value": 2,
+    "Accuracy": 0
     }
 
-    jason = trooper
-    #.to_json() - tried to convert trooper to json with this,don't know why it doesn't recognise the method. Pandas and json installed.
-
-    return jason
-
-@app.route("/hansard", methods=["GET"])
-def some_other_name_than_hansard():
-    """Prints the general hansard json"""
-    gibralter=providor.grabawebsite()
-
-    return {
-        "Stupid hansard": gibralter
-    }
+    return trooper
 
 @app.route("/gibber", methods=["GET"])
 def gibber():
@@ -131,12 +125,12 @@ def gibber():
     a_numpty = helpers.Numpty()
     return {
       "objectname": a_numpty.get_name(),
-      "Providor": providor.NumptyProvidor.gibbergibber(),
+      "Providor": "tree",
       "something_more_impressive": a_numpty.do_something_more_impressive(3)
     }
 
-@app.route("/keith_mood", methods=["GET"])
-def get_keith_mood():
+@app.route("/keith_mood/<ingest>", methods=["GET"])
+def get_keith_mood(ingest:str) -> dict:
     """Start gibbering
     ---
     responses:
@@ -144,9 +138,8 @@ def get_keith_mood():
             description: A gibbering function.
     """
     keith = keith_mood.KeithMood(name="Wednesday",level=2)
-    mood = keith.improve_mood("chocolate") # +1 = 3
-    mood = keith.improve_mood("vape") # doesn't work = 3
-    mood = keith.reduce_mood() # -1 = 2 back where started
+    mood = keith.improve_mood(ingest)
+
     return {
       "mood": mood
     }
