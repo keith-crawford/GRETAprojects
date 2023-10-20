@@ -1,6 +1,7 @@
 """ A scrap file to tests modules outside of api.py"""
 
 from projectwilliamsville import providor
+import pandas
 
 def earncalls() -> dict:
     """Uses earningcalls function to call them from providor function and post to website
@@ -19,5 +20,12 @@ def earncalls() -> dict:
 
 ec=earncalls()
 
-print(ec)
-print(type(ec))
+ticker="IBM"
+schedule = providor.schedule(ticker)
+print('***************Json********************')
+print ('schedule:', schedule)
+print ('schedule is type ', type(schedule))
+print ('**************Dataframe***************')
+df = pandas.DataFrame(schedule)
+print (df)
+df.to_csv("schedule.csv")
