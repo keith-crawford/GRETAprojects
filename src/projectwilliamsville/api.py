@@ -51,9 +51,10 @@
 # 3rd party imports
 from flasgger import Swagger
 import flask
+import requests
 
 # custom imports
-from projectwilliamsville import helpers, keith_mood, hansard
+from projectwilliamsville import helpers, keith_mood, hansard, providor
 
 app = flask.Flask(__name__)
 template = {
@@ -83,17 +84,95 @@ def home() -> dict:
         "blah": hansard.return_blah()
     }
 
+@app.route('/profile/<ticker>')
+def profile(ticker:str) -> str:
+     """"calls FMP API for company profile for ticker in URL
+    ---
+    responses:
+        200:
+            description: FMP Company Profiles
+    """
+     stockticker=ticker
+     return providor.profiler(stockticker)
 
-# @app.route("/earningscall", method=["GET"])
-# def earncalls() -> dict:
-#     """ Uses earningcalls function to call them from providor function and post to website
-#     Except what it actually does is crashes the code with a:
-#     File "/home/ubuntu/source/project-williamsville/src/projectwilliamsville/api.py", line 85, in <module>
-#     def earncalls() -> dict:
-#     TypeError: Rule.__init__() got an unexpected keyword argument 'method'"""
+@app.route('/earningscalls/<ticker>')
+def earncalls(ticker:str) -> str:
+    """"calls FMP API for company earnings calls for ticker in URL
+    ---
+    responses:
+        200:
+            description: FMP Company Earning Calls
+    """
+    stockticker=ticker
+    return providor.earnings_calls(stockticker)
 
-#     ereport = providor.earning_calls()
-#     return ereport
+@app.route('/schedules/<ticker>')
+def schedule(ticker:str) -> str:
+    """"calls FMP API for quarters, years, and times of all recorded earning calls.
+    ---
+    responses:
+        200:
+            description: FMP Company Earning Calls
+    """
+
+    stockticker=ticker
+    return providor.schedule(stockticker)
+
+############## WORK IN PROGRESS - RETURNING A CSV##############
+
+@app.route('/schedulecsv/<ticker>')
+def schedulecsv(ticker:str) -> str:
+    """"calls FMP API for quarters, years, and times of all recorded earning calls and returns a CSV file
+    ---
+    responses:
+        200:
+            description: FMP Company Earning Calls
+    """
+
+    stockticker=ticker
+    return providor.schedule_csv(stockticker)
+
+
+
+
+###########################
+#      FILE UPLOAD        #
+###########################
+
+@ app.route('/picture')
+def picture_loader():
+    """Posts KeithandStephen.jpg from src folder to endpoint
+    ---
+    responses:
+        200:
+            description:
+    """
+    url = 'http://127.0.0.1:5000/picture'
+    pic = {'media': open('/home/ubuntu/source/project-williamsville/src/projectwilliamsville/KeithandStephen.jpg', 'rb')}
+
+    response = requests.post(url=url, files=pic)
+    return  response.text
+
+
+# ******************************************************************************************************************120
+# Test functions
+# *********************************************************************************************************************
+
+@ app.route('/nametastic/<name>')
+def name800(name: str) ->str:
+    """It absolutely will not stop until it finds the method error"""
+    oyname=providor.naminator(name)
+    return f'Oy! {oyname}'
+
+@app.route('/hello/<name>')
+def hello_name(name:str) -> str:
+    """returns Hello + folder name to hello/<name>endpoint
+    ---
+    responses:
+        200:
+            description:
+    """
+    return f'Hello {name}!'
 
 @app.route("/jason", methods=["GET"])
 def jason() -> dict:

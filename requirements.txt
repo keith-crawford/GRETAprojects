@@ -20,4 +20,3 @@ click
 matplotlib
 networkx
 WordCloud
-example

@@ -50,7 +50,7 @@ def main(apikey: str) -> None:
     ## STEP 2 :Request ticker name and report quantity
     #Then use df.head to trim the dataframe to the requested number of reports.
 
-    print ("Earnings Calls Text Analyser")
+    # print ("Earnings Calls Text Analyser")
     ticker_all = input("Enter the ticker name (eg. XOM, GE, MSFT, BP or C): ")
     quantity = int(input("Enter how many of the most recent earning calls you would like to analyse? "))
 
