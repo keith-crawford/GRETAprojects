@@ -2,4 +2,5 @@
 
 
 def add_one(number) :
+    """ It adds one """
     return number +1

@@ -3,10 +3,6 @@
 # ******************************************************************************************************************120
 # app.py
 #
-# NOTES: Functions not working as intended are as follows:
-# def earning calls - fails TypeError: Rule.__init__() got an unexpected keyword argument 'method'
-# def trypost - works fine as a get, put it was suppost to be a POST
-# def collatedcalls - meant to send json to api docs but doesn't work
 #
 #
 # Challenge 4: Make some flask APIs do what you want
@@ -47,6 +43,7 @@
 # *********************************************************************************************************************
 
 # standard imports
+import csv
 
 # 3rd party imports
 from flasgger import Swagger
@@ -84,6 +81,27 @@ def home() -> dict:
         "blah": hansard.return_blah()
     }
 
+@app.route("/cat", methods=["GET"])
+def cat() -> dict:
+    """Return cat
+    ---
+    responses:
+        200:
+            description: A cute cat
+    """
+
+    return helpers.cat()
+
+@app.route("/picture", methods=["GET"])
+def picture() -> dict:
+    """Return jpg
+    ---
+    responses:
+        200:
+            description: Keith and Stephen at the Rodin museum
+    """
+    return providor.happypicture()
+
 @app.route('/profile/<ticker>')
 def profile(ticker:str) -> str:
      """"calls FMP API for company profile for ticker in URL
@@ -118,11 +136,14 @@ def schedule(ticker:str) -> str:
     stockticker=ticker
     return providor.schedule(stockticker)
 
-############## WORK IN PROGRESS - RETURNING A CSV##############
+
+###########################
+#      FILE UPLOAD        #
+###########################
 
 @app.route('/schedulecsv/<ticker>')
 def schedulecsv(ticker:str) -> str:
-    """"calls FMP API for quarters, years, and times of all recorded earning calls and returns a CSV file
+    """"CSV: calls FMP API for quarters, years, and times of all recorded earning calls and returns a CSV file
     ---
     responses:
         200:
@@ -132,26 +153,6 @@ def schedulecsv(ticker:str) -> str:
     stockticker=ticker
     return providor.schedule_csv(stockticker)
 
-
-
-
-###########################
-#      FILE UPLOAD        #
-###########################
-
-@ app.route('/picture')
-def picture_loader():
-    """Posts KeithandStephen.jpg from src folder to endpoint
-    ---
-    responses:
-        200:
-            description:
-    """
-    url = 'http://127.0.0.1:5000/picture'
-    pic = {'media': open('/home/ubuntu/source/project-williamsville/src/projectwilliamsville/KeithandStephen.jpg', 'rb')}
-
-    response = requests.post(url=url, files=pic)
-    return  response.text
 
 
 # ******************************************************************************************************************120
