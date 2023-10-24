@@ -15,13 +15,19 @@ import random
 # 3rd party imports
 import requests
 import pandas
-import json
+
+
+
 
 # custom imports
 
 # declare global timeout
 TIMEOUT = 5000
 
+
+###########################
+#    FIRST EXPERIMENTS    #
+###########################
 class NumptyProvidor :
     """Doc string doc string doc string"""
 
@@ -69,10 +75,26 @@ def gibber_gibber_outside_class() -> str:
     return "gibber gibber"
 
 def naminator(name):
+    """It absolutely will not stop"""
     newname=name+"!"+name+"!"+name+"!"
     return newname
 
 
+def happypicture() -> str:
+    """returns a picture of us at the Rodin museum"""
+
+    web_page = [
+        "<!DOCTYPE html>",
+        "<html>",
+        "<body>",
+        "<h1>This is a memory</h1>",
+        "<p>A happy memory.</p>",
+        '<img src="../static/img/KeithandStephen.jpg" alt="Us at the Rodin Museum">',
+        "</body>",
+        "</html>"
+    ]
+
+    return '\n'.join(web_page)
 
 
 ###########################
@@ -135,19 +157,15 @@ def schedule_csv(ticker: str) -> str:
     #Make dataframe and saveas csv
     df = pandas.DataFrame(response)
     df.to_csv("src/projectwilliamsville/fmpschedule.csv")
-
-    # The followingcode returns: <_io.TextIOWrapper name='src/projectwilliamsville/fmpschedule.csv' mode='r' encoding='UTF-8'>
-
-    file = open("src/projectwilliamsville/fmpschedule.csv","r")
-    csvstring=file
-    file.close()
-
-    # So returning csvstring doesn't do what we want - and in fact calls a type error on the website
-
-    return response.text
+    file = 'src/projectwilliamsville/fmpschedule.csv'
+    f=open(file, mode='r',encoding='utf8')
+    csvschedule=f.read()
 
 
-def get_earning_call(baseurl: str, headers: dict, apikey: str, tckr: str, qrtr:int, year:int) -> dict:
+    return csvschedule
+
+
+def get_earning_call(baseurl: str, apikey: str, tckr: str, qrtr:int, year:int) -> dict:
     """Does a get of this end point
     https://site.financialmodelingprep.com/developer/docs/earning-call-transcript-api/"""
 
@@ -167,7 +185,7 @@ def retrieve_call_dates(column: pandas.DataFrame, baseurl:str, headers:dict, api
 
     return earning_calls
 
-def get_available_transcripts(headers:dict, apikey:str, STOCK_TICKER:str)->dict:
+def get_available_transcripts(apikey:str, STOCK_TICKER:str)->dict:
     """Does a get of this end point
     https://site.financialmodelingprep.com/developer/docs/earning-call-transcript-api/"""
 
@@ -218,5 +236,3 @@ def earnings_calls(ticker: str) -> str:
     collated_calls=earning_calls.to_json()
 
     return collated_calls
-
-###
